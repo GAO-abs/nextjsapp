@@ -1,9 +1,10 @@
 name: Sync to Huawei OBS
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:    
 
 # 🌍 Global environment variables (available everywhere)
 env:

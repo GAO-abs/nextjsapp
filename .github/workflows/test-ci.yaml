@@ -1,0 +1,40 @@
+name: Sync to Huawei OBS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install and Sync with obsutil
+        env:
+          ACCESS_KEY: ${{ secrets.HUAWEI_ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.HUAWEI_SECRET_KEY }}
+          REGION: ${{ secrets.HUAWEI_REGION }}
+          BUCKET_NAME: ${{ secrets.HUAWEI_BUCKET }}
+        run: |
+          # Download obsutil
+          wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz
+          
+          # Extract
+          tar -xzvf obsutil_linux_amd64.tar.gz
+
+          # Find extracted directory
+          OBS_DIR=$(ls -d obsutil_linux_amd64_*)
+          chmod -R 755 $OBS_DIR
+
+          # Configure obsutil
+          ./$OBS_DIR/obsutil config \
+            -i=$ACCESS_KEY \
+            -k=$SECRET_KEY \
+            -e=obs.$REGION.myhuaweicloud.com
+
+          # Sync local folder to OBS bucket
+          ./$OBS_DIR/obsutil sync ./local-folder obs://$BUCKET_NAME/ -f

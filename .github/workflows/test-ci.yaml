@@ -34,7 +34,6 @@ jobs:
         run: |
           # Ensure Next.js export directory exists
           npm run build
-          npm run export   # generates ./out by default
 
       - name: Debug out folder
         run: ls -la $LOCAL_PATH

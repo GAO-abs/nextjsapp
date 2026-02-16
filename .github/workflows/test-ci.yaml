@@ -43,5 +43,4 @@ jobs:
           # Sync local folder to OBS bucket
           ./$OBS_DIR/obsutil sync \
             $LOCAL_PATH \
-            obs://$BUCKET_NAME/ \
-            -f
+            obs://$BUCKET_NAME/ 

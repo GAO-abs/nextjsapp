@@ -1,12 +1,12 @@
-name: Sync to Huawei OBS
+name: Build & Deploy Next.js to Huawei OBS
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  workflow_dispatch:    
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-# 🌍 Global environment variables (available everywhere)
+# Global environment
 env:
   ACCESS_KEY: ${{ secrets.HUAWEI_ACCESS_KEY }}
   SECRET_KEY: ${{ secrets.HUAWEI_SECRET_KEY }}
@@ -15,19 +15,34 @@ env:
   LOCAL_PATH: ./out/
 
 jobs:
-  sync:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install and Sync with obsutil
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js app
+        run: |
+          # Ensure Next.js export directory exists
+          npm run build
+          npm run export   # generates ./out by default
+
+      - name: Debug out folder
+        run: ls -la $LOCAL_PATH
+
+      - name: Install obsutil and Sync to OBS
         run: |
           # Download obsutil
           wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz
-          
-          # Extract
           tar -xzvf obsutil_linux_amd64.tar.gz
 
           # Find extracted directory
@@ -40,7 +55,7 @@ jobs:
             -k=$SECRET_KEY \
             -e=obs.$REGION.myhuaweicloud.com
 
-          # Sync local folder to OBS bucket
+          # Sync the exported static site
           ./$OBS_DIR/obsutil sync \
             $LOCAL_PATH \
-            obs://$BUCKET_NAME/ 
+            obs://$BUCKET_NAME/

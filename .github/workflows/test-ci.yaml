@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+# 🌍 Global environment variables (available everywhere)
+env:
+  ACCESS_KEY: ${{ secrets.HUAWEI_ACCESS_KEY }}
+  SECRET_KEY: ${{ secrets.HUAWEI_SECRET_KEY }}
+  REGION: ${{ secrets.HUAWEI_REGION }}
+  BUCKET_NAME: ${{ secrets.HUAWEI_BUCKET }}
+  LOCAL_PATH: ./out/
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -14,11 +22,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install and Sync with obsutil
-        env:
-          ACCESS_KEY: ${{ secrets.HUAWEI_ACCESS_KEY }}
-          SECRET_KEY: ${{ secrets.HUAWEI_SECRET_KEY }}
-          REGION: ${{ secrets.HUAWEI_REGION }}
-          BUCKET_NAME: ${{ secrets.HUAWEI_BUCKET }}
         run: |
           # Download obsutil
           wget https://obs-community.obs.cn-north-1.myhuaweicloud.com/obsutil/current/obsutil_linux_amd64.tar.gz
@@ -37,4 +40,7 @@ jobs:
             -e=obs.$REGION.myhuaweicloud.com
 
           # Sync local folder to OBS bucket
-          ./$OBS_DIR/obsutil sync ./local-folder obs://$BUCKET_NAME/ -f
+          ./$OBS_DIR/obsutil sync \
+            $LOCAL_PATH \
+            obs://$BUCKET_NAME/ \
+            -f

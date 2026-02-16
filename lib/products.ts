@@ -58,7 +58,7 @@ export const products: Product[] = [
   },
   {
     id: "7",
-    name: "Ceramic Coffee Mug",
+    name: "Coffee Mug",
     price: 18.99,
     image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400",
     description: "Sturdy matte ceramic mug, holds 12oz.",

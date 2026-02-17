@@ -80,14 +80,14 @@ export const products: Product[] = [
     description: "UV400 polarized lenses with a retro frame.",
     category: "accessories",
   },
-  {
-    id: "10",
-    name: "Hardcover book",
-    price: 14.99,
-    image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400",
-    description: "200 dotted pages, lay-flat binding.",
-    category: "stationery",
-  },
+  // {
+  //   id: "10",
+  //   name: "Hardcover book",
+  //   price: 14.99,
+  //   image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400",
+  //   description: "200 dotted pages, lay-flat binding.",
+  //   category: "stationery",
+  // },
 ];
 
 export function getProductById(id: string) {

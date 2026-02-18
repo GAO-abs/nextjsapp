@@ -72,14 +72,14 @@ export const products: Product[] = [
     description: "Non-slip, eco-friendly mat with carrying strap.",
     category: "fitness",
   },
-  {
-    id: "9",
-    name: "Sunglasses",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400",
-    description: "UV400 polarized lenses with a retro frame.",
-    category: "accessories",
-  },
+  // {
+  //   id: "9",
+  //   name: "Sunglasses",
+  //   price: 89.99,
+  //   image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400",
+  //   description: "UV400 polarized lenses with a retro frame.",
+  //   category: "accessories",
+  // },
   // {
   //   id: "10",
   //   name: "Hardcover book",
